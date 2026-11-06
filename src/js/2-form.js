@@ -1,8 +1,7 @@
 
-
 const form = document.querySelector('.feedback-form');
 
-const formState = {
+const formData = {
   email: '',
   message: '',
 };
@@ -10,43 +9,44 @@ const formState = {
 const STORAGE_KEY = 'feedback-form-state';
 
 // Відновлення даних із localStorage
-const savedFormState = localStorage.getItem(STORAGE_KEY);
+const savedFormData = localStorage.getItem(STORAGE_KEY);
 
-if (savedFormState) {
-  const parsedState = JSON.parse(savedFormState);
+if (savedFormData) {
+  const parsedData = JSON.parse(savedFormData);
 
-  formState.email = parsedState.email || '';
-  formState.message = parsedState.message || '';
+  formData.email = parsedData.email || '';
+  formData.message = parsedData.message || '';
 
-  form.elements.email.value = formState.email;
-  form.elements.message.value = formState.message;
+  form.elements.email.value = formData.email;
+  form.elements.message.value = formData.message;
 }
 
 // Відстеження введення даних у форму
 form.addEventListener('input', event => {
   const { name, value } = event.target;
 
-  formState[name] = value.trim();
+  formData[name] = value.trim();
 
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(formState));
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
 });
 
 // Відправлення форми
 form.addEventListener('submit', event => {
   event.preventDefault();
 
-  if (!formState.email || !formState.message) {
+  if (!formData.email || !formData.message) {
     alert('Fill please all fields');
     return;
   }
 
-  console.log(formState);
+  console.log(formData);
 
   localStorage.removeItem(STORAGE_KEY);
 
   form.reset();
 
-  formState.email = '';
-  formState.message = '';
+  formData.email = '';
+  formData.message = '';
 });
+
 
